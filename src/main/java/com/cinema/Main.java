@@ -1,8 +1,8 @@
-package com.cinemaproject;
+package com.cinema;
 
-import com.cinemaproject.lib.Injector;
-import com.cinemaproject.model.Movie;
-import com.cinemaproject.service.MovieService;
+import com.cinema.lib.Injector;
+import com.cinema.model.Movie;
+import com.cinema.service.MovieService;
 
 public class Main {
     private static final Injector INJECTOR = Injector.getInstance("com.cinemaproject");

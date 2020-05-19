@@ -1,4 +1,4 @@
-package com.cinemaproject.lib;
+package com.cinema.lib;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

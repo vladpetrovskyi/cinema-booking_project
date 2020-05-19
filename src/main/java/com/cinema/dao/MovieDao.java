@@ -1,6 +1,6 @@
-package com.cinemaproject.dao;
+package com.cinema.dao;
 
-import com.cinemaproject.model.Movie;
+import com.cinema.model.Movie;
 import java.util.List;
 
 public interface MovieDao {

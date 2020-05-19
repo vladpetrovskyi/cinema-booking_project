@@ -1,10 +1,10 @@
-package com.cinemaproject.dao.impl;
+package com.cinema.dao.impl;
 
-import com.cinemaproject.dao.MovieDao;
-import com.cinemaproject.exceptions.DataProcessingException;
-import com.cinemaproject.lib.Dao;
-import com.cinemaproject.model.Movie;
-import com.cinemaproject.util.HibernateUtil;
+import com.cinema.dao.MovieDao;
+import com.cinema.exceptions.DataProcessingException;
+import com.cinema.lib.Dao;
+import com.cinema.model.Movie;
+import com.cinema.util.HibernateUtil;
 import java.util.List;
 import javax.persistence.criteria.CriteriaQuery;
 import org.apache.logging.log4j.LogManager;
@@ -21,9 +21,9 @@ public class MovieDaoImpl implements MovieDao {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
-            Long itemId = (Long) session.save(movie);
+            Long movieId = (Long) session.save(movie);
             transaction.commit();
-            movie.setId(itemId);
+            movie.setId(movieId);
             return movie;
         } catch (Exception e) {
             if (transaction != null) {

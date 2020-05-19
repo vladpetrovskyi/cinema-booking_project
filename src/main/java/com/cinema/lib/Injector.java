@@ -1,4 +1,4 @@
-package com.cinemaproject.lib;
+package com.cinema.lib;
 
 import java.io.File;
 import java.io.IOException;
