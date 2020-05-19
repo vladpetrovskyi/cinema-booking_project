@@ -28,6 +28,21 @@
         <artifactId>log4j-core</artifactId>
         <version>2.13.0</version>
     </dependency>
+    <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <version>8.0.20</version>
+    </dependency>
+    <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-core</artifactId>
+        <version>5.4.15.Final</version>
+    </dependency>
+    <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-java8</artifactId>
+        <version>5.4.15.Final</version>
+    </dependency>
 </dependencies>
     <build>
         <plugins>
