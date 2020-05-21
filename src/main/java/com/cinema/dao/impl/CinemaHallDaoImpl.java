@@ -26,13 +26,14 @@ public class CinemaHallDaoImpl implements CinemaHallDao {
             transaction = session.beginTransaction();
             Long movieId = (Long) session.save(cinemaHall);
             transaction.commit();
+            LOGGER.info(cinemaHall + "is inserted into DB.");
             cinemaHall.setId(movieId);
             return cinemaHall;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Could not insert CinemaHall entity.", e);
+            throw new DataProcessingException("Could not insert CinemaHall entity.", e);
         } finally {
             if (session != null) {
                 session.close();

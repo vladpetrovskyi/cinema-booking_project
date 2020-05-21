@@ -3,12 +3,17 @@ package com.cinema.dao.impl;
 import com.cinema.dao.MovieSessionDao;
 import com.cinema.exceptions.DataProcessingException;
 import com.cinema.lib.Dao;
+import com.cinema.model.Movie;
 import com.cinema.model.MovieSession;
 import com.cinema.util.HibernateUtil;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
@@ -28,13 +33,14 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
             transaction = session.beginTransaction();
             Long movieId = (Long) session.save(movieSession);
             transaction.commit();
+            LOGGER.info(movieSession + "is inserted into DB.");
             movieSession.setId(movieId);
             return movieSession;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Could not insert MovieSession entity.", e);
+            throw new DataProcessingException("Could not insert MovieSession entity.", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -45,14 +51,17 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
     @Override
     public List<MovieSession> findAvailableSessions(Long movieId, LocalDate date) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            CriteriaQuery<MovieSession> criteriaQuery =
-                    session.getCriteriaBuilder().createQuery(MovieSession.class);
-            criteriaQuery.from(MovieSession.class);
-            List<MovieSession> resultList = session.createQuery(criteriaQuery).getResultList();
-            return resultList.stream()
-                    .filter(ms -> ms.getMovie().getId().equals(movieId))
-                    .filter(ms -> ms.getShowTime().toLocalDate().equals(date))
-                    .collect(Collectors.toList());
+            CriteriaBuilder cb = session.getCriteriaBuilder();
+            CriteriaQuery<MovieSession> criteriaQuery = cb.createQuery(MovieSession.class);
+            Root<MovieSession> movieSessionRoot = criteriaQuery.from(MovieSession.class);
+            Movie movie = new Movie();
+            movie.setId(movieId);
+            LocalDateTime before = date.atStartOfDay();
+            LocalDateTime after = date.atTime(23, 59,59);
+            criteriaQuery.select(movieSessionRoot).where(
+                    cb.equal(movieSessionRoot.get("movie"), movie),
+                    cb.between(movieSessionRoot.get("showTime"), before, after));
+            return session.createQuery(criteriaQuery).getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Error retrieving all movie sessions.", e);
         }
