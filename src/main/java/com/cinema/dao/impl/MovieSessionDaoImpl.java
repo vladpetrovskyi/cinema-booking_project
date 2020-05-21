@@ -54,11 +54,11 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
             Root<MovieSession> movieSessionRoot = criteriaQuery.from(MovieSession.class);
             Movie movie = new Movie();
             movie.setId(movieId);
-            LocalDateTime before = date.atStartOfDay();
-            LocalDateTime after = date.atTime(23, 59,59);
+            LocalDateTime from = date.atStartOfDay();
+            LocalDateTime until = date.atTime(23, 59,59);
             criteriaQuery.select(movieSessionRoot).where(
                     cb.equal(movieSessionRoot.get("movie"), movie),
-                    cb.between(movieSessionRoot.get("showTime"), before, after));
+                    cb.between(movieSessionRoot.get("showTime"), from, until));
             return session.createQuery(criteriaQuery).getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Error retrieving all movie sessions.", e);
