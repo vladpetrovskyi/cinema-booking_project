@@ -8,6 +8,7 @@ import com.cinema.model.MovieSession;
 import com.cinema.util.HibernateUtil;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -55,7 +56,7 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
             Movie movie = new Movie();
             movie.setId(movieId);
             LocalDateTime from = date.atStartOfDay();
-            LocalDateTime until = date.atTime(23, 59,59);
+            LocalDateTime until = date.atTime(LocalTime.MAX);
             criteriaQuery.select(movieSessionRoot).where(
                     cb.equal(movieSessionRoot.get("movie"), movie),
                     cb.between(movieSessionRoot.get("showTime"), from, until));
