@@ -11,6 +11,8 @@ import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import java.util.Optional;
+
 @Dao
 public class UserDaoImpl implements UserDao {
     @Override
@@ -20,9 +22,8 @@ public class UserDaoImpl implements UserDao {
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-            Long userId = (Long) session.save(user);
+            session.save(user);
             transaction.commit();
-            user.setId(userId);
             return user;
         } catch (Exception e) {
             if (transaction != null) {
