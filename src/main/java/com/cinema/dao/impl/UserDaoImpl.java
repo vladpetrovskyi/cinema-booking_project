@@ -1,36 +1,33 @@
 package com.cinema.dao.impl;
 
-import com.cinema.dao.MovieDao;
+import com.cinema.dao.UserDao;
 import com.cinema.exceptions.DataProcessingException;
 import com.cinema.lib.Dao;
-import com.cinema.model.Movie;
+import com.cinema.model.User;
 import com.cinema.util.HibernateUtil;
-import java.util.List;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 @Dao
-public class MovieDaoImpl implements MovieDao {
-    private static final Logger LOGGER = LogManager.getLogger(MovieDaoImpl.class);
-
+public class UserDaoImpl implements UserDao {
     @Override
-    public Movie add(Movie movie) {
+    public User add(User user) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-            session.save(movie);
+            session.save(user);
             transaction.commit();
-            return movie;
+            return user;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Could not insert Movie entity.", e);
+            throw new DataProcessingException("Could not insert user entity.", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -39,14 +36,15 @@ public class MovieDaoImpl implements MovieDao {
     }
 
     @Override
-    public List<Movie> getAll() {
+    public User findByEmail(String email) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            CriteriaQuery<Movie> criteriaQuery = session.getCriteriaBuilder()
-                    .createQuery(Movie.class);
-            criteriaQuery.from(Movie.class);
-            return session.createQuery(criteriaQuery).getResultList();
+            CriteriaBuilder cb = session.getCriteriaBuilder();
+            CriteriaQuery<User> criteriaQuery = cb.createQuery(User.class);
+            Root<User> userRoot = criteriaQuery.from(User.class);
+            criteriaQuery.select(userRoot).where(cb.equal(userRoot.get("email"), email));
+            return session.createQuery(criteriaQuery).uniqueResult();
         } catch (Exception e) {
-            throw new DataProcessingException("Error retrieving all movies.", e);
+            throw new DataProcessingException("Error retrieving user by email.", e);
         }
     }
 }
