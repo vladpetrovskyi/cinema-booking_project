@@ -5,16 +5,22 @@ import com.cinema.lib.Injector;
 import com.cinema.model.CinemaHall;
 import com.cinema.model.Movie;
 import com.cinema.model.MovieSession;
+import com.cinema.model.ShoppingCart;
 import com.cinema.model.User;
 import com.cinema.security.AuthenticationService;
 import com.cinema.service.CinemaHallService;
 import com.cinema.service.MovieService;
 import com.cinema.service.MovieSessionService;
+import com.cinema.service.ShoppingCartService;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Main {
+    private static final Logger LOGGER = LogManager.getLogger(Main.class);
     private static final Injector INJECTOR = Injector.getInstance("com.cinema");
 
     public static void main(String[] args) throws AuthenticationException {
@@ -39,22 +45,21 @@ public class Main {
                 (MovieSessionService) INJECTOR.getInstance(MovieSessionService.class);
         movieSessionService.add(movieSession);
 
-        movieSessionService.findAvailableSessions(movie.getId(), LocalDate.now())
-                .forEach(System.out::println);
-
-        User user1 = new User();
-        user1.setEmail("sasha.dovgyi@gmail.com");
-        user1.setPassword("12345");
-        User user2 = new User();
-        user2.setEmail("anton.pavlov@i.ua");
-        user2.setPassword("1111");
+        List<MovieSession> availableSessions =
+                movieSessionService.findAvailableSessions(movie.getId(), LocalDate.now());
+        availableSessions.forEach(LOGGER::info);
 
         AuthenticationService authenticationService =
                 (AuthenticationService) INJECTOR.getInstance(AuthenticationService.class);
-        authenticationService.register("sasha.dovgyi@gmail.com", "12345");
+        User user1 = authenticationService.register("sasha.dovgyi@gmail.com", "12345");
         authenticationService.register("anton.pavlov@i.ua", "1111");
         authenticationService.login("sasha.dovgyi@gmail.com", "12345");
-        authenticationService.login("sasha.dovgy@gmail.com", "12345");
-        authenticationService.login("sasha.dovgyi@gmail.com", "1234");
+
+        ShoppingCartService shoppingCartService =
+                (ShoppingCartService) INJECTOR.getInstance(ShoppingCartService.class);
+        MovieSession selectedMovieSession = availableSessions.get(0);
+        shoppingCartService.addSession(selectedMovieSession, user1);
+        ShoppingCart shoppingCart = shoppingCartService.getByUser(user1);
+        LOGGER.info(shoppingCart);
     }
 }
