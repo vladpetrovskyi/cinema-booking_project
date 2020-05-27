@@ -8,6 +8,7 @@ import com.cinema.model.User;
 import com.cinema.util.HibernateUtil;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
@@ -45,9 +46,8 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
             Root<ShoppingCart> shoppingCartRoot = criteriaQuery.from(ShoppingCart.class);
             criteriaQuery.select(shoppingCartRoot)
                     .where(cb.equal(shoppingCartRoot.get("user"), user));
-            ShoppingCart shoppingCart = session.createQuery(criteriaQuery).uniqueResult();
-            Hibernate.initialize(shoppingCart.getTickets());
-            return shoppingCart;
+            shoppingCartRoot.fetch("tickets", JoinType.LEFT);
+            return session.createQuery(criteriaQuery).uniqueResult();
         } catch (Exception e) {
             throw new DataProcessingException("Error retrieving shopping cart by user.", e);
         }
