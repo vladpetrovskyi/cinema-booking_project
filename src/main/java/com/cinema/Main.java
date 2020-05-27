@@ -12,12 +12,16 @@ import com.cinema.service.CinemaHallService;
 import com.cinema.service.MovieService;
 import com.cinema.service.MovieSessionService;
 import com.cinema.service.ShoppingCartService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
 public class Main {
+    private static final Logger LOGGER = LogManager.getLogger(Main.class);
     private static final Injector INJECTOR = Injector.getInstance("com.cinema");
 
     public static void main(String[] args) throws AuthenticationException {
@@ -44,12 +48,12 @@ public class Main {
 
         List<MovieSession> availableSessions =
                 movieSessionService.findAvailableSessions(movie.getId(), LocalDate.now());
-        availableSessions.forEach(System.out::println);
+        availableSessions.forEach(LOGGER::info);
 
         AuthenticationService authenticationService =
                 (AuthenticationService) INJECTOR.getInstance(AuthenticationService.class);
         User user1 = authenticationService.register("sasha.dovgyi@gmail.com", "12345");
-        User user2 = authenticationService.register("anton.pavlov@i.ua", "1111");
+        authenticationService.register("anton.pavlov@i.ua", "1111");
         authenticationService.login("sasha.dovgyi@gmail.com", "12345");
 
         ShoppingCartService shoppingCartService =
@@ -57,6 +61,6 @@ public class Main {
         MovieSession selectedMovieSession = availableSessions.get(0);
         shoppingCartService.addSession(selectedMovieSession, user1);
         ShoppingCart shoppingCart = shoppingCartService.getByUser(user1);
-        System.out.println(shoppingCart);
+        LOGGER.info(shoppingCart);
     }
 }
