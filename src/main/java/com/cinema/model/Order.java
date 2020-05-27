@@ -27,22 +27,6 @@ public class Order {
 
     private LocalDateTime orderTime;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public List<Ticket> getTickets() {
-        return tickets;
-    }
-
-    public void setTickets(List<Ticket> tickets) {
-        this.tickets = tickets;
-    }
-
     public User getUser() {
         return user;
     }
@@ -51,12 +35,28 @@ public class Order {
         this.user = user;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public LocalDateTime getOrderTime() {
         return orderTime;
     }
 
     public void setOrderTime(LocalDateTime orderTime) {
         this.orderTime = orderTime;
+    }
+
+    public List<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(List<Ticket> tickets) {
+        this.tickets = tickets;
     }
 
     @Override
