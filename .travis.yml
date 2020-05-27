@@ -1,13 +1,13 @@
 language: java
 jdk:
-  - openjdk11
+- openjdk11
 script:
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=vladpetrovskyi_cinema-booking_project
+-  mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=vladpetrovskyi_cinema-booking_project
 cache:
   directories:
-    - $HOME/.m2
+  - "$HOME/.m2"
 addons:
   sonarcloud:
     organization: "vladpetrovskyi"
     token:
-      secure: "3DJw0zccEQpSmLe8xP0rauc1Vuk9X0A2yVshjxzaj4w57w0fsFNw4mj/V393Mfi6+gxcosOr/9jU3KD7oJGXVj+3KEKid6qNlKwbET76dVuu7eQKYW0gk0dhIGoGgjWf9gxN9eEy/q8BQ2/5q1bPKRuwn2uCNKST18s7ISWqoiMRsyP2FbPqgxzGvArGgA9G5IWGHhHbtvVWrO/Op8oTRn+bRo72fNPdMwv/LacYDwzHFx3vQgpq7MvRqaQbWQfUeZTV49Bs8LgGIJ8NYNV+XUPyUp1u2mx8trbg1U/9sCNPTXEPkk8lXQ4DmRX2tmdjSi//xXgL9ltXQfg5tT9p/87TNXrZ6gFT8ow9I2+PQA8/V5ctgGULE6xwzQP5dfm8weSHKZYaD+UvZPvOgG3d0yolvyx3BPI11rPccOS52cfeJ7jcd20LfB1UDyG8jrqUlL97MP8FlvuYmoh923gaLezEgGkpI9sTp/pArWO172Ouq/a0d1tCnt1z2gtp5hxX2Wqy/+8t8nHfC1MQkkH0S2931TFComIvPMcdBv/cnGFdF5BpiCItF/x+RgKJfpSKsT6BNdbQTZY/c/MHS30BzH2r0JGsW1I5cbIGgAnJUNVi2nSej78MGixIWXjIQCWmXcJj9wP8BICHQt5J67TCIxNXfOx0noHrFxc72/c50h0="
+      secure: "np8z+2OweblDBqFz7i3zspNoIyBuOJOYfg/3UQSgQYVJTbLDvljGVRDChlMTXxitNo8eH0/UyyH1I4A8DdExrLeLjGN00OulzUQ7ictJOi5bxRuRRI1yJuw6greeJ275Bg5EF/e5d2fOX3qrT24cHO4rLEN8dnGp0KIbKNe2w4nDFKgNAYaT6vI8b5W82JL7/Aedc9j5c4Fop0hhDTk48B862mNhcwrHsfFVg+LAFnMTOB0+v5UvzP78vHoQTfxTGmjyOl5Ar0E3KC75ETKmQeE97EYchyRVILcgsl7hYNDv9k5ktzp6gchLtP4IslBsldwSf7mlBkcsWzto2NrE3tCKEUwrmSrDkdwOoCc026LZJ+Sf+kccFhEMfyrEnkrp0pH07BXSaiEUiQYdOUS5KVCwSoei8F5W6BhH6GrZmlEkNeesEnOV0WSu4sM3SuUuS4M/D4Dmi0KBBYGngJ7bWvoearAF6rJwWqhYpKemjccfC3ci/BjMMOaHH8C8Nbr05QR7wjnznwu0+bD4WugG8LVod4CkT59QQ0fjGYnok9SSsx7TtcNJJ8CXDxLB/RaI30tmKarYdeBLNuyhIbgxkmLA9Nox6jnlHEy3ZqivMjB2esZCzU77xukm25Ob+8dFkonQ39DzssUvfBPvPW+ratmwtcPe2xzIG1v4EnZI51g="
