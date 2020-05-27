@@ -2,7 +2,12 @@ language: java
 jdk:
   - openjdk11
 script:
-  - mvn clean install
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=vladpetrovskyi_cinema-booking_project
 cache:
   directories:
     - $HOME/.m2
+addons:
+  sonarcloud:
+    organization: "vladpetrovskyi"
+    token:
+      secure: "3DJw0zccEQpSmLe8xP0rauc1Vuk9X0A2yVshjxzaj4w57w0fsFNw4mj/V393Mfi6+gxcosOr/9jU3KD7oJGXVj+3KEKid6qNlKwbET76dVuu7eQKYW0gk0dhIGoGgjWf9gxN9eEy/q8BQ2/5q1bPKRuwn2uCNKST18s7ISWqoiMRsyP2FbPqgxzGvArGgA9G5IWGHhHbtvVWrO/Op8oTRn+bRo72fNPdMwv/LacYDwzHFx3vQgpq7MvRqaQbWQfUeZTV49Bs8LgGIJ8NYNV+XUPyUp1u2mx8trbg1U/9sCNPTXEPkk8lXQ4DmRX2tmdjSi//xXgL9ltXQfg5tT9p/87TNXrZ6gFT8ow9I2+PQA8/V5ctgGULE6xwzQP5dfm8weSHKZYaD+UvZPvOgG3d0yolvyx3BPI11rPccOS52cfeJ7jcd20LfB1UDyG8jrqUlL97MP8FlvuYmoh923gaLezEgGkpI9sTp/pArWO172Ouq/a0d1tCnt1z2gtp5hxX2Wqy/+8t8nHfC1MQkkH0S2931TFComIvPMcdBv/cnGFdF5BpiCItF/x+RgKJfpSKsT6BNdbQTZY/c/MHS30BzH2r0JGsW1I5cbIGgAnJUNVi2nSej78MGixIWXjIQCWmXcJj9wP8BICHQt5J67TCIxNXfOx0noHrFxc72/c50h0="
