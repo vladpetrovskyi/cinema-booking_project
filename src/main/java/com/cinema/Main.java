@@ -66,5 +66,6 @@ public class Main {
         OrderService orderService = (OrderService) INJECTOR.getInstance(OrderService.class);
         orderService.completeOrder(shoppingCart.getTickets(), shoppingCart.getUser());
         LOGGER.info(orderService.getOrderHistory(user1));
+        LOGGER.info(shoppingCartService.getByUser(user1));
     }
 }
