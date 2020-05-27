@@ -21,11 +21,11 @@ public class Order {
     @OneToMany
     private List<Ticket> tickets;
 
-    private LocalDateTime orderTime;
-
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    private LocalDateTime orderTime;
 
     public Long getId() {
         return id;
@@ -43,20 +43,20 @@ public class Order {
         this.tickets = tickets;
     }
 
-    public LocalDateTime getOrderTime() {
-        return orderTime;
-    }
-
-    public void setOrderTime(LocalDateTime orderTime) {
-        this.orderTime = orderTime;
-    }
-
     public User getUser() {
         return user;
     }
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public LocalDateTime getOrderTime() {
+        return orderTime;
+    }
+
+    public void setOrderTime(LocalDateTime orderTime) {
+        this.orderTime = orderTime;
     }
 
     @Override
