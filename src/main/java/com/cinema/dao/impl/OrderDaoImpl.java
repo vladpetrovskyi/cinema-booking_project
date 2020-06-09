@@ -2,26 +2,33 @@ package com.cinema.dao.impl;
 
 import com.cinema.dao.OrderDao;
 import com.cinema.exceptions.DataProcessingException;
-import com.cinema.lib.Dao;
 import com.cinema.model.Order;
 import com.cinema.model.User;
-import com.cinema.util.HibernateUtil;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.springframework.stereotype.Repository;
 
-@Dao
+@Repository
 public class OrderDaoImpl implements OrderDao {
+
+    private final SessionFactory sessionFactory;
+
+    public OrderDaoImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
+
     @Override
     public Order add(Order order) {
         Session session = null;
         Transaction transaction = null;
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
+            session = sessionFactory.openSession();
             transaction = session.beginTransaction();
             session.save(order);
             transaction.commit();
@@ -40,7 +47,7 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public List<Order> findByUser(User user) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             CriteriaBuilder cb = session.getCriteriaBuilder();
             CriteriaQuery<Order> criteriaQuery = cb.createQuery(Order.class);
             Root<Order> orderRoot = criteriaQuery.from(Order.class);
