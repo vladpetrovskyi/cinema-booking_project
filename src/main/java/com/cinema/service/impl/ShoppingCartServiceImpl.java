@@ -2,22 +2,24 @@ package com.cinema.service.impl;
 
 import com.cinema.dao.ShoppingCartDao;
 import com.cinema.dao.TicketDao;
-import com.cinema.lib.Inject;
-import com.cinema.lib.Service;
 import com.cinema.model.MovieSession;
 import com.cinema.model.ShoppingCart;
 import com.cinema.model.Ticket;
 import com.cinema.model.User;
 import com.cinema.service.ShoppingCartService;
+import org.springframework.stereotype.Service;
 
 @Service
 public class ShoppingCartServiceImpl implements ShoppingCartService {
 
-    @Inject
-    private ShoppingCartDao shoppingCartDao;
+    private final ShoppingCartDao shoppingCartDao;
 
-    @Inject
-    private TicketDao ticketDao;
+    private final TicketDao ticketDao;
+
+    public ShoppingCartServiceImpl(ShoppingCartDao shoppingCartDao, TicketDao ticketDao) {
+        this.shoppingCartDao = shoppingCartDao;
+        this.ticketDao = ticketDao;
+    }
 
     @Override
     public void addSession(MovieSession movieSession, User user) {

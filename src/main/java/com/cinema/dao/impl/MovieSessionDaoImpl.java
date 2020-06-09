@@ -2,10 +2,8 @@ package com.cinema.dao.impl;
 
 import com.cinema.dao.MovieSessionDao;
 import com.cinema.exceptions.DataProcessingException;
-import com.cinema.lib.Dao;
 import com.cinema.model.Movie;
 import com.cinema.model.MovieSession;
-import com.cinema.util.HibernateUtil;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -13,26 +11,34 @@ import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.springframework.stereotype.Repository;
 
-@Dao
+@Repository
 public class MovieSessionDaoImpl implements MovieSessionDao {
 
-    private static final Logger LOGGER = LogManager.getLogger(MovieDaoImpl.class);
+    private final Logger logger;
+
+    private final SessionFactory sessionFactory;
+
+    public MovieSessionDaoImpl(SessionFactory sessionFactory, Logger logger) {
+        this.sessionFactory = sessionFactory;
+        this.logger = logger;
+    }
 
     @Override
     public MovieSession add(MovieSession movieSession) {
         Session session = null;
         Transaction transaction = null;
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
+            session = sessionFactory.openSession();
             transaction = session.beginTransaction();
             session.save(movieSession);
             transaction.commit();
-            LOGGER.info(movieSession + "is inserted into DB.");
+            logger.info(movieSession + "is inserted into DB.");
             return movieSession;
         } catch (Exception e) {
             if (transaction != null) {
@@ -48,7 +54,7 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
 
     @Override
     public List<MovieSession> findAvailableSessions(Long movieId, LocalDate date) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             CriteriaBuilder cb = session.getCriteriaBuilder();
             CriteriaQuery<MovieSession> criteriaQuery = cb.createQuery(MovieSession.class);
             Root<MovieSession> movieSessionRoot = criteriaQuery.from(MovieSession.class);
