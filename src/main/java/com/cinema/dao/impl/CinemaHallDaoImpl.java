@@ -18,9 +18,9 @@ public class CinemaHallDaoImpl implements CinemaHallDao {
 
     private final SessionFactory sessionFactory;
 
-    public CinemaHallDaoImpl(SessionFactory sessionFactory, Logger Logger) {
+    public CinemaHallDaoImpl(SessionFactory sessionFactory, Logger logger) {
         this.sessionFactory = sessionFactory;
-        this.logger = Logger;
+        this.logger = logger;
     }
 
     @Override
