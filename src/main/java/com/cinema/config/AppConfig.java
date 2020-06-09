@@ -57,13 +57,9 @@ public class AppConfig {
         properties.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
 
         factoryBean.setHibernateProperties(properties);
-        factoryBean.setAnnotatedClasses(CinemaHall.class);
-        factoryBean.setAnnotatedClasses(Movie.class);
-        factoryBean.setAnnotatedClasses(MovieSession.class);
-        factoryBean.setAnnotatedClasses(Order.class);
-        factoryBean.setAnnotatedClasses(ShoppingCart.class);
-        factoryBean.setAnnotatedClasses(Ticket.class);
-        factoryBean.setAnnotatedClasses(User.class);
+        factoryBean.setAnnotatedClasses(CinemaHall.class, Movie.class,
+                MovieSession.class, Order.class, ShoppingCart.class,
+                Ticket.class, User.class);
         return factoryBean;
     }
 
