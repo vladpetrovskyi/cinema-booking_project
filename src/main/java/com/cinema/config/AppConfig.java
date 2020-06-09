@@ -1,12 +1,5 @@
 package com.cinema.config;
 
-import com.cinema.model.CinemaHall;
-import com.cinema.model.Movie;
-import com.cinema.model.MovieSession;
-import com.cinema.model.Order;
-import com.cinema.model.ShoppingCart;
-import com.cinema.model.Ticket;
-import com.cinema.model.User;
 import java.util.Properties;
 import javax.sql.DataSource;
 import org.apache.commons.dbcp2.BasicDataSource;
@@ -57,9 +50,7 @@ public class AppConfig {
         properties.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
 
         factoryBean.setHibernateProperties(properties);
-        factoryBean.setAnnotatedClasses(CinemaHall.class, Movie.class,
-                MovieSession.class, Order.class, ShoppingCart.class,
-                Ticket.class, User.class);
+        factoryBean.setAnnotatedPackages("com.cinema.model");
         return factoryBean;
     }
 
