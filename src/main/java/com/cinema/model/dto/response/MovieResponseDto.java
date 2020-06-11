@@ -1,16 +1,16 @@
 package com.cinema.model.dto.response;
 
 public class MovieResponseDto {
-    private Long id;
+    private Long movieId;
     private String title;
     private String description;
 
     public Long getId() {
-        return id;
+        return movieId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Long movieId) {
+        this.movieId = movieId;
     }
 
     public String getTitle() {

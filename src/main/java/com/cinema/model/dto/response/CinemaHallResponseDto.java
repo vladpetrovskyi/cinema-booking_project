@@ -1,16 +1,16 @@
 package com.cinema.model.dto.response;
 
 public class CinemaHallResponseDto {
-    private Long id;
+    private Long cinemaHallId;
     private Long capacity;
-    private String description;
+    private String details;
 
     public Long getId() {
-        return id;
+        return cinemaHallId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Long cinemaHallId) {
+        this.cinemaHallId = cinemaHallId;
     }
 
     public Long getCapacity() {
@@ -22,10 +22,10 @@ public class CinemaHallResponseDto {
     }
 
     public String getDescription() {
-        return description;
+        return details;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescription(String details) {
+        this.details = details;
     }
 }
