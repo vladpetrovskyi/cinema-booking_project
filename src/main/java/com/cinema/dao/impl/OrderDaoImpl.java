@@ -51,10 +51,10 @@ public class OrderDaoImpl implements OrderDao {
             CriteriaBuilder cb = session.getCriteriaBuilder();
             CriteriaQuery<Order> criteriaQuery = cb.createQuery(Order.class);
             Root<Order> orderRoot = criteriaQuery.from(Order.class);
-            criteriaQuery.select(orderRoot)
-                    .where(cb.equal(orderRoot.get("user"), user));
             orderRoot.fetch("tickets", JoinType.LEFT);
-            return session.createQuery(criteriaQuery).getResultList();
+            return session.createQuery(criteriaQuery.distinct(true)
+                    .select(orderRoot).where(cb.equal(orderRoot.get("user"), user)))
+                    .getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Error retrieving orders by user.", e);
         }

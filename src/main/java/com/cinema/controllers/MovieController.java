@@ -1,0 +1,40 @@
+package com.cinema.controllers;
+
+import com.cinema.model.Movie;
+import com.cinema.model.dto.request.MovieRequestDto;
+import com.cinema.model.dto.response.MovieResponseDto;
+import com.cinema.model.mapper.ItemMapper;
+import com.cinema.service.MovieService;
+import java.util.List;
+import java.util.stream.Collectors;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping(value = "/movies")
+public class MovieController {
+
+    private final MovieService movieService;
+    private final ItemMapper<Movie, MovieRequestDto, MovieResponseDto> itemMapper;
+
+    public MovieController(MovieService movieService,
+                           ItemMapper<Movie, MovieRequestDto, MovieResponseDto> itemMapper) {
+        this.movieService = movieService;
+        this.itemMapper = itemMapper;
+    }
+
+    @GetMapping
+    public List<MovieResponseDto> getAllMovies() {
+        return movieService.getAll().stream()
+                .map(itemMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @PostMapping
+    public void addMovie(@RequestBody MovieRequestDto requestDto) {
+        movieService.add(itemMapper.toEntity(requestDto));
+    }
+}

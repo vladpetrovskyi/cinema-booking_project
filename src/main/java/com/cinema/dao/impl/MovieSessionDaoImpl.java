@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -68,6 +69,19 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
             return session.createQuery(criteriaQuery).getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Error retrieving all movie sessions.", e);
+        }
+    }
+
+    @Override
+    public Optional<MovieSession> getById(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            CriteriaBuilder cb = session.getCriteriaBuilder();
+            CriteriaQuery<MovieSession> criteriaQuery = cb.createQuery(MovieSession.class);
+            Root<MovieSession> root = criteriaQuery.from(MovieSession.class);
+            criteriaQuery.select(root).where(cb.equal(root.get("id"), id));
+            return session.createQuery(criteriaQuery).uniqueResultOptional();
+        } catch (Exception e) {
+            throw new DataProcessingException("Error retrieving movie by ID.", e);
         }
     }
 }

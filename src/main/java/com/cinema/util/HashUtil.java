@@ -6,17 +6,19 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
+import org.springframework.stereotype.Component;
 
+@Component
 public class HashUtil {
 
-    public static byte[] getSalt() {
+    public byte[] getSalt() {
         SecureRandom random = new SecureRandom();
         byte[] salt = new byte[16];
         random.nextBytes(salt);
         return salt;
     }
 
-    public static String hashPassword(String password, byte[] salt) {
+    public String hashPassword(String password, byte[] salt) {
         KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);
         StringBuilder hashedPassword = new StringBuilder();
         try {
@@ -31,7 +33,7 @@ public class HashUtil {
         return hashedPassword.toString();
     }
 
-    public static boolean isValid(String givenPassword, String truePassword, byte[] salt) {
+    public boolean isValid(String givenPassword, String truePassword, byte[] salt) {
         return hashPassword(givenPassword, salt).equals(truePassword);
     }
 }

@@ -14,17 +14,20 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final ShoppingCartService shoppingCartService;
 
+    private final HashUtil hashUtil;
+
     public AuthenticationServiceImpl(UserService userService,
-                                     ShoppingCartService shoppingCartService) {
+                                     ShoppingCartService shoppingCartService, HashUtil hashUtil) {
         this.userService = userService;
         this.shoppingCartService = shoppingCartService;
+        this.hashUtil = hashUtil;
     }
 
     @Override
     public User login(String email, String pass) throws AuthenticationException {
         User userFromDb = userService.findByEmail(email);
         if (userFromDb != null
-                && HashUtil.isValid(pass, userFromDb.getPassword(), userFromDb.getSalt())) {
+                && hashUtil.isValid(pass, userFromDb.getPassword(), userFromDb.getSalt())) {
             return userFromDb;
         }
         throw new AuthenticationException("Incorrect login or password");
@@ -34,8 +37,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public User register(String email, String password) {
         User user = new User();
         user.setEmail(email);
-        byte[] salt = HashUtil.getSalt();
-        user.setPassword(HashUtil.hashPassword(password, salt));
+        byte[] salt = hashUtil.getSalt();
+        user.setPassword(hashUtil.hashPassword(password, salt));
         user.setSalt(salt);
         User userFromDb = userService.add(user);
         shoppingCartService.registerNewShoppingCart(userFromDb);
