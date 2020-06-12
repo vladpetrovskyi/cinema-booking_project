@@ -3,6 +3,7 @@ package com.cinema.dao.impl;
 import com.cinema.dao.UserDao;
 import com.cinema.exceptions.DataProcessingException;
 import com.cinema.model.User;
+import java.util.Optional;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -52,6 +53,19 @@ public class UserDaoImpl implements UserDao {
             return session.createQuery(criteriaQuery).uniqueResult();
         } catch (Exception e) {
             throw new DataProcessingException("Error retrieving user by email.", e);
+        }
+    }
+
+    @Override
+    public Optional<User> getById(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            CriteriaBuilder cb = session.getCriteriaBuilder();
+            CriteriaQuery<User> criteriaQuery = cb.createQuery(User.class);
+            Root<User> root = criteriaQuery.from(User.class);
+            criteriaQuery.select(root).where(cb.equal(root.get("id"), id));
+            return session.createQuery(criteriaQuery).uniqueResultOptional();
+        } catch (Exception e) {
+            throw new DataProcessingException("Error retrieving user by ID.", e);
         }
     }
 }
