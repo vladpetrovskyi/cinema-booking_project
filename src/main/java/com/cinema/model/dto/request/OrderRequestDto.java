@@ -1,6 +1,11 @@
 package com.cinema.model.dto.request;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 public class OrderRequestDto {
+    @NotNull
+    @Min(value = 1)
     private Long userId;
 
     public Long getUserId() {

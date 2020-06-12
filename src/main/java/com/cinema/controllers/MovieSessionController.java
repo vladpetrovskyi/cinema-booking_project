@@ -8,6 +8,7 @@ import com.cinema.service.MovieSessionService;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.validation.Valid;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,7 +33,7 @@ public class MovieSessionController {
     }
 
     @PostMapping
-    public void addMovieSession(@RequestBody MovieSessionRequestDto requestDto) {
+    public void addMovieSession(@RequestBody @Valid MovieSessionRequestDto requestDto) {
         movieSessionService.add(itemMapper.toEntity(requestDto));
     }
 
