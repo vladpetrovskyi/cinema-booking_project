@@ -7,12 +7,12 @@ import javax.validation.constraints.NotNull;
 @ValidPasswords(password = "password",
         repeatPassword = "repeatPassword")
 public class UserRequestDto {
-    @NotNull
+    @NotNull(message = "'email' field cannot be empty!")
     @ValidEmail
     private String email;
-    @NotNull
+    @NotNull(message = "'password' field cannot be empty!")
     private String password;
-    @NotNull
+    @NotNull(message = "'repeatPassword' field cannot be empty!")
     private String repeatPassword;
 
     public String getEmail() {

@@ -3,7 +3,7 @@ package com.cinema.model.dto.request;
 import javax.validation.constraints.NotNull;
 
 public class CinemaHallRequestDto {
-    @NotNull
+    @NotNull(message = "'capacity' field can't be empty!")
     private Long capacity;
     private String description;
 

@@ -4,8 +4,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 public class OrderRequestDto {
-    @NotNull
-    @Min(value = 1)
+    @NotNull(message = "'userId' field cannot be empty!")
+    @Min(value = 1, message = "User ID cannot be less than 1!")
     private Long userId;
 
     public Long getUserId() {
