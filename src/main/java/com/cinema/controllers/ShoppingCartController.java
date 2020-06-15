@@ -7,6 +7,7 @@ import com.cinema.model.mapper.ItemMapper;
 import com.cinema.service.MovieSessionService;
 import com.cinema.service.ShoppingCartService;
 import com.cinema.service.UserService;
+import javax.validation.constraints.Min;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,7 +43,8 @@ public class ShoppingCartController {
     }
 
     @PostMapping(value = "/add-movie-session")
-    public void addMovieSession(Authentication auth, @RequestParam Long movieSessionId) {
+    public void addMovieSession(Authentication auth, @RequestParam @Min(
+            value = 1, message = "Movie session ID cannot be less than 1!") Long movieSessionId) {
         shoppingCartService.addSession(
                 movieSessionService.getById(movieSessionId),
                 userService.findByEmail(getEmail(auth)));
