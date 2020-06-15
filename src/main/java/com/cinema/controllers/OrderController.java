@@ -10,8 +10,9 @@ import com.cinema.service.ShoppingCartService;
 import com.cinema.service.UserService;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,15 +36,21 @@ public class OrderController {
         this.shoppingCartService = shoppingCartService;
     }
 
-    @GetMapping("/{userId}")
-    public List<OrderResponseDto> getUserOrders(@PathVariable Long userId) {
-        List<Order> orderList = orderService.getOrderHistory(userService.getById(userId));
+    @GetMapping
+    public List<OrderResponseDto> getUserOrders(Authentication auth) {
+        List<Order> orderList =
+                orderService.getOrderHistory(userService.findByEmail(getUserEmail(auth)));
         return orderList.stream().map(itemMapper::toDto).collect(Collectors.toList());
     }
 
-    @PostMapping(value = "/{userId}/complete")
-    public void completeOrder(@PathVariable Long userId) {
-        User user = userService.getById(userId);
+    @PostMapping(value = "/complete")
+    public void completeOrder(Authentication auth) {
+        User user = userService.findByEmail(getUserEmail(auth));
         orderService.completeOrder(shoppingCartService.getByUser(user).getTickets(), user);
+    }
+
+    private String getUserEmail(Authentication auth) {
+        UserDetails principal = (UserDetails) auth.getPrincipal();
+        return principal.getUsername();
     }
 }

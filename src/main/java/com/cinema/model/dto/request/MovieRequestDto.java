@@ -1,8 +1,11 @@
 package com.cinema.model.dto.request;
 
+import javax.validation.constraints.NotNull;
+
 public class MovieRequestDto {
-    String title;
-    String description;
+    @NotNull(message = "'title' field cannot be empty!")
+    private String title;
+    private String description;
 
     public String getTitle() {
         return title;

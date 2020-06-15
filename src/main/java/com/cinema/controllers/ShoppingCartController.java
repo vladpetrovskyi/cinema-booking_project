@@ -7,6 +7,9 @@ import com.cinema.model.mapper.ItemMapper;
 import com.cinema.service.MovieSessionService;
 import com.cinema.service.ShoppingCartService;
 import com.cinema.service.UserService;
+import javax.validation.constraints.Min;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,14 +37,21 @@ public class ShoppingCartController {
     }
 
     @GetMapping(value = "/by-user")
-    public ShoppingCartResponseDto getShoppingCartByUserId(@RequestParam Long userId) {
-        return itemMapper.toDto(shoppingCartService.getByUser(userService.getById(userId)));
+    public ShoppingCartResponseDto getShoppingCartByUserId(Authentication auth) {
+        return itemMapper.toDto(
+                shoppingCartService.getByUser(userService.findByEmail(getEmail(auth))));
     }
 
     @PostMapping(value = "/add-movie-session")
-    public void addMovieSession(@RequestParam Long userId, @RequestParam Long movieSessionId) {
+    public void addMovieSession(Authentication auth, @RequestParam @Min(
+            value = 1, message = "Movie session ID cannot be less than 1!") Long movieSessionId) {
         shoppingCartService.addSession(
                 movieSessionService.getById(movieSessionId),
-                userService.getById(userId));
+                userService.findByEmail(getEmail(auth)));
+    }
+
+    private String getEmail(Authentication auth) {
+        UserDetails user = (UserDetails) auth.getPrincipal();
+        return user.getUsername();
     }
 }
