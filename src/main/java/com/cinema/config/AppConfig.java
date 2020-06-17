@@ -20,8 +20,7 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
         "com.cinema.service",
         "com.cinema.dao",
         "com.cinema.security",
-        "com.cinema.util",
-        "com.cinema.model.mapper"
+        "com.cinema.model.mapper",
 })
 public class AppConfig {
 
