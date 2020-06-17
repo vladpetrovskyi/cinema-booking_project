@@ -39,7 +39,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public User register(String email, String password) {
         User user = new User();
         user.setEmail(email);
-        user.setPassword(password);
+        user.setPassword(passwordEncoder.encode(password));
         user.setRoles(Set.of(roleService.getRoleByName("USER")));
         User userFromDb = userService.add(user);
         shoppingCartService.registerNewShoppingCart(userFromDb);

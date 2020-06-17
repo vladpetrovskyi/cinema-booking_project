@@ -9,10 +9,7 @@ import org.springframework.web.servlet.view.JstlView;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {
-        "com.cinema.controllers",
-        "com.cinema.security"
-})
+@ComponentScan(basePackages = {"com.cinema.controllers"})
 public class WebAppConfig {
 
     @Bean
