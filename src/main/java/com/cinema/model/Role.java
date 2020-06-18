@@ -6,18 +6,20 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "role")
+@Data
+@NoArgsConstructor
 public class Role {
     @Id
     @GeneratedValue
     private Long id;
+
     @Enumerated(EnumType.STRING)
     private RoleName roleName;
-
-    public Role() {
-    }
 
     private Role(RoleName roleName) {
         this.roleName = roleName;
@@ -25,22 +27,6 @@ public class Role {
 
     public static Role of(String role) {
         return new Role(RoleName.valueOf(role));
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public RoleName getRoleName() {
-        return roleName;
-    }
-
-    public void setRoleName(RoleName roleName) {
-        this.roleName = roleName;
     }
 
     public enum RoleName {

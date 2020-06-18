@@ -20,8 +20,8 @@ public class CinemaHallMapperImpl
     @Override
     public CinemaHallResponseDto toDto(CinemaHall entity) {
         CinemaHallResponseDto dto = new CinemaHallResponseDto();
-        dto.setId(entity.getId());
-        dto.setDescription(entity.getDescription());
+        dto.setCinemaHallId(entity.getId());
+        dto.setDetails(entity.getDescription());
         dto.setCapacity(entity.getCapacity());
         return dto;
     }
