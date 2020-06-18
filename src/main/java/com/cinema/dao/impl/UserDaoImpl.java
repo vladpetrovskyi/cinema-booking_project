@@ -6,6 +6,7 @@ import com.cinema.model.User;
 import java.util.Optional;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -44,13 +45,17 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User findByEmail(String email) {
+    public Optional<User> findByEmail(String email) {
         try (Session session = sessionFactory.openSession()) {
             CriteriaBuilder cb = session.getCriteriaBuilder();
             CriteriaQuery<User> criteriaQuery = cb.createQuery(User.class);
             Root<User> userRoot = criteriaQuery.from(User.class);
-            criteriaQuery.select(userRoot).where(cb.equal(userRoot.get("email"), email));
-            return session.createQuery(criteriaQuery).uniqueResult();
+            userRoot.fetch("roles", JoinType.LEFT);
+            return session.createQuery(
+                    criteriaQuery.distinct(true)
+                            .select(userRoot)
+                            .where(cb.equal(userRoot.get("email"), email)))
+                    .uniqueResultOptional();
         } catch (Exception e) {
             throw new DataProcessingException("Error retrieving user by email.", e);
         }
@@ -62,8 +67,12 @@ public class UserDaoImpl implements UserDao {
             CriteriaBuilder cb = session.getCriteriaBuilder();
             CriteriaQuery<User> criteriaQuery = cb.createQuery(User.class);
             Root<User> root = criteriaQuery.from(User.class);
-            criteriaQuery.select(root).where(cb.equal(root.get("id"), id));
-            return session.createQuery(criteriaQuery).uniqueResultOptional();
+            root.fetch("roles", JoinType.LEFT);
+            return session.createQuery(
+                    criteriaQuery.distinct(true)
+                            .select(root)
+                            .where(cb.equal(root.get("id"), id)))
+                    .uniqueResultOptional();
         } catch (Exception e) {
             throw new DataProcessingException("Error retrieving user by ID.", e);
         }
