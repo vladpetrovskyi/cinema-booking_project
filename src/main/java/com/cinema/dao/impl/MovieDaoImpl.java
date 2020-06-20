@@ -17,13 +17,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class MovieDaoImpl implements MovieDao {
 
-    private final Logger logger;
-
     private final SessionFactory sessionFactory;
 
-    public MovieDaoImpl(SessionFactory sessionFactory, Logger logger) {
+    public MovieDaoImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
-        this.logger = logger;
     }
 
     @Override

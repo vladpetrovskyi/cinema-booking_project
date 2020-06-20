@@ -24,10 +24,16 @@ public class InjectDataController {
     public void injectData() {
         roleService.add(Role.of("USER"));
         roleService.add(Role.of("ADMIN"));
+
+        User admin = new User();
+        admin.setEmail("admin@cinema.net");
+        admin.setPassword(new BCryptPasswordEncoder().encode("admin"));
+        admin.setRoles(Set.of(roleService.getRoleByName("ADMIN")));
+
         User user = new User();
-        user.setEmail("admin");
-        user.setPassword(new BCryptPasswordEncoder().encode("admin"));
-        user.setRoles(Set.of(roleService.getRoleByName("ADMIN")));
+        user.setEmail("user@cinema.net");
+        user.setPassword(new BCryptPasswordEncoder().encode("user1"));
+        user.setRoles(Set.of(roleService.getRoleByName("USER")));
         userService.add(user);
     }
 }
