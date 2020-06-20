@@ -4,16 +4,14 @@ import com.cinema.dao.CinemaHallDao;
 import com.cinema.model.CinemaHall;
 import com.cinema.service.CinemaHallService;
 import java.util.List;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@AllArgsConstructor
 public class CinemaHallServiceImpl implements CinemaHallService {
 
     private final CinemaHallDao cinemaHallDao;
-
-    public CinemaHallServiceImpl(CinemaHallDao cinemaHallDao) {
-        this.cinemaHallDao = cinemaHallDao;
-    }
 
     @Override
     public CinemaHall add(CinemaHall cinemaHall) {

@@ -2,15 +2,12 @@ package com.cinema.config;
 
 import java.util.Properties;
 import javax.sql.DataSource;
+import lombok.AllArgsConstructor;
 import org.apache.commons.dbcp2.BasicDataSource;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.InjectionPoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.Scope;
 import org.springframework.core.env.Environment;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 
@@ -22,13 +19,10 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
         "com.cinema.security",
         "com.cinema.model.mapper",
 })
+@AllArgsConstructor
 public class AppConfig {
 
     private final Environment env;
-
-    public AppConfig(Environment env) {
-        this.env = env;
-    }
 
     @Bean
     public DataSource getDataSource() {
@@ -53,12 +47,5 @@ public class AppConfig {
         factoryBean.setHibernateProperties(properties);
         factoryBean.setPackagesToScan("com.cinema.model");
         return factoryBean;
-    }
-
-    @Bean
-    @Scope("prototype")
-    public Logger produceLogger(InjectionPoint injectionPoint) {
-        Class<?> classOnWired = injectionPoint.getMember().getDeclaringClass();
-        return LogManager.getLogger(classOnWired);
     }
 }

@@ -1,5 +1,6 @@
 package com.cinema.security;
 
+import lombok.AllArgsConstructor;
 import static org.springframework.security.core.userdetails.User.withUsername;
 
 import com.cinema.model.User;
@@ -11,13 +12,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
+@AllArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserService userService;
-
-    public CustomUserDetailsService(UserService userService) {
-        this.userService = userService;
-    }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

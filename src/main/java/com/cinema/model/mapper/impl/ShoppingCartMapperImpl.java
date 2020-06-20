@@ -10,24 +10,17 @@ import com.cinema.model.mapper.ItemMapper;
 import com.cinema.service.ShoppingCartService;
 import com.cinema.service.UserService;
 import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@AllArgsConstructor
 public class ShoppingCartMapperImpl
         implements ItemMapper<ShoppingCart, ShoppingCartRequestDto, ShoppingCartResponseDto> {
 
     private final ShoppingCartService shoppingCartService;
     private final UserService userService;
     private final ItemMapper<Ticket, TicketRequestDto, TicketResponseDto> itemMapper;
-
-    public ShoppingCartMapperImpl(ShoppingCartService shoppingCartService,
-                                  UserService userService,
-                                  ItemMapper<Ticket, TicketRequestDto,
-                                          TicketResponseDto> itemMapper) {
-        this.shoppingCartService = shoppingCartService;
-        this.userService = userService;
-        this.itemMapper = itemMapper;
-    }
 
     @Override
     public ShoppingCart toEntity(ShoppingCartRequestDto dto) {

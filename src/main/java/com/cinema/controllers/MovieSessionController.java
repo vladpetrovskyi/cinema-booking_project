@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,18 +21,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/movie-sessions")
+@AllArgsConstructor
 public class MovieSessionController {
 
     private final MovieSessionService movieSessionService;
     private final ItemMapper<MovieSession,
             MovieSessionRequestDto, MovieSessionResponseDto> itemMapper;
-
-    public MovieSessionController(MovieSessionService movieSessionService,
-                                  ItemMapper<MovieSession, MovieSessionRequestDto,
-                                          MovieSessionResponseDto> itemMapper) {
-        this.movieSessionService = movieSessionService;
-        this.itemMapper = itemMapper;
-    }
 
     @PostMapping
     public void addMovieSession(@RequestBody @Valid MovieSessionRequestDto requestDto) {

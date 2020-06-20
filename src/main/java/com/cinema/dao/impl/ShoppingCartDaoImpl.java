@@ -8,19 +8,17 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
+import lombok.AllArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@AllArgsConstructor
 public class ShoppingCartDaoImpl implements ShoppingCartDao {
 
     private final SessionFactory sessionFactory;
-
-    public ShoppingCartDaoImpl(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
 
     @Override
     public ShoppingCart add(ShoppingCart shoppingCart) {

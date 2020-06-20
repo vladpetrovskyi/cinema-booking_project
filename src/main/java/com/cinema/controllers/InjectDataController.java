@@ -6,19 +6,16 @@ import com.cinema.service.RoleService;
 import com.cinema.service.UserService;
 import java.util.Set;
 import javax.annotation.PostConstruct;
+import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 
 @Controller
+@AllArgsConstructor
 public class InjectDataController {
 
     private final RoleService roleService;
     private final UserService userService;
-
-    public InjectDataController(RoleService roleService, UserService userService) {
-        this.roleService = roleService;
-        this.userService = userService;
-    }
 
     @PostConstruct
     public void injectData() {
