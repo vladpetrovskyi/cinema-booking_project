@@ -1,10 +1,10 @@
 package com.cinema.security;
 
-import lombok.AllArgsConstructor;
 import static org.springframework.security.core.userdetails.User.withUsername;
 
 import com.cinema.model.User;
 import com.cinema.service.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
