@@ -6,25 +6,18 @@ import com.cinema.service.RoleService;
 import com.cinema.service.ShoppingCartService;
 import com.cinema.service.UserService;
 import java.util.Set;
+import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
+@AllArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final UserService userService;
     private final ShoppingCartService shoppingCartService;
     private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
-
-    public AuthenticationServiceImpl(UserService userService,
-                                     ShoppingCartService shoppingCartService,
-                                     PasswordEncoder passwordEncoder, RoleService roleService) {
-        this.userService = userService;
-        this.shoppingCartService = shoppingCartService;
-        this.passwordEncoder = passwordEncoder;
-        this.roleService = roleService;
-    }
 
     @Override
     public User login(String email, String pass) throws AuthenticationException {

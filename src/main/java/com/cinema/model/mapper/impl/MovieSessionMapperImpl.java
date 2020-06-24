@@ -6,19 +6,16 @@ import com.cinema.model.dto.response.MovieSessionResponseDto;
 import com.cinema.model.mapper.ItemMapper;
 import com.cinema.service.CinemaHallService;
 import com.cinema.service.MovieService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@AllArgsConstructor
 public class MovieSessionMapperImpl
         implements ItemMapper<MovieSession, MovieSessionRequestDto, MovieSessionResponseDto> {
 
     private final MovieService movieService;
     private final CinemaHallService cinemaHallService;
-
-    public MovieSessionMapperImpl(MovieService movieService, CinemaHallService cinemaHallService) {
-        this.movieService = movieService;
-        this.cinemaHallService = cinemaHallService;
-    }
 
     @Override
     public MovieSession toEntity(MovieSessionRequestDto dto) {

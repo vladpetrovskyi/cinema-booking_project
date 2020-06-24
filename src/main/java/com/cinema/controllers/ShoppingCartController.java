@@ -8,6 +8,7 @@ import com.cinema.service.MovieSessionService;
 import com.cinema.service.ShoppingCartService;
 import com.cinema.service.UserService;
 import javax.validation.constraints.Min;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/shopping-carts")
+@AllArgsConstructor
 public class ShoppingCartController {
 
     private final ShoppingCartService shoppingCartService;
@@ -25,16 +27,6 @@ public class ShoppingCartController {
     private final MovieSessionService movieSessionService;
     private final ItemMapper<ShoppingCart,
             ShoppingCartRequestDto, ShoppingCartResponseDto> itemMapper;
-
-    public ShoppingCartController(ShoppingCartService shoppingCartService,
-                                  UserService userService, ItemMapper<ShoppingCart,
-            ShoppingCartRequestDto, ShoppingCartResponseDto> itemMapper,
-                                  MovieSessionService movieSessionService) {
-        this.shoppingCartService = shoppingCartService;
-        this.userService = userService;
-        this.itemMapper = itemMapper;
-        this.movieSessionService = movieSessionService;
-    }
 
     @GetMapping(value = "/by-user")
     public ShoppingCartResponseDto getShoppingCartByUserId(Authentication auth) {

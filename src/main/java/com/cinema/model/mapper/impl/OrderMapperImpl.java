@@ -8,16 +8,14 @@ import com.cinema.model.dto.response.OrderResponseDto;
 import com.cinema.model.dto.response.TicketResponseDto;
 import com.cinema.model.mapper.ItemMapper;
 import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@AllArgsConstructor
 public class OrderMapperImpl implements ItemMapper<Order, OrderRequestDto, OrderResponseDto> {
 
     private final ItemMapper<Ticket, TicketRequestDto, TicketResponseDto> itemMapper;
-
-    public OrderMapperImpl(ItemMapper<Ticket, TicketRequestDto, TicketResponseDto> itemMapper) {
-        this.itemMapper = itemMapper;
-    }
 
     @Override
     public Order toEntity(OrderRequestDto dto) {

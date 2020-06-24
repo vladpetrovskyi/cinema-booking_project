@@ -19,7 +19,7 @@ public class MovieMapperImpl implements ItemMapper<Movie, MovieRequestDto, Movie
     @Override
     public MovieResponseDto toDto(Movie entity) {
         MovieResponseDto dto = new MovieResponseDto();
-        dto.setId(entity.getId());
+        dto.setMovieId(entity.getId());
         dto.setDescription(entity.getDescription());
         dto.setTitle(entity.getTitle());
         return dto;

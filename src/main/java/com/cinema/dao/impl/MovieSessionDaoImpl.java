@@ -12,23 +12,19 @@ import java.util.Optional;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import org.apache.logging.log4j.Logger;
+import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@AllArgsConstructor
+@Log4j2
 public class MovieSessionDaoImpl implements MovieSessionDao {
 
-    private final Logger logger;
-
     private final SessionFactory sessionFactory;
-
-    public MovieSessionDaoImpl(SessionFactory sessionFactory, Logger logger) {
-        this.sessionFactory = sessionFactory;
-        this.logger = logger;
-    }
 
     @Override
     public MovieSession add(MovieSession movieSession) {
@@ -39,7 +35,7 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
             transaction = session.beginTransaction();
             session.save(movieSession);
             transaction.commit();
-            logger.info(movieSession + "is inserted into DB.");
+            log.info(movieSession + "is inserted into DB.");
             return movieSession;
         } catch (Exception e) {
             if (transaction != null) {
@@ -75,11 +71,7 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
     @Override
     public Optional<MovieSession> getById(Long id) {
         try (Session session = sessionFactory.openSession()) {
-            CriteriaBuilder cb = session.getCriteriaBuilder();
-            CriteriaQuery<MovieSession> criteriaQuery = cb.createQuery(MovieSession.class);
-            Root<MovieSession> root = criteriaQuery.from(MovieSession.class);
-            criteriaQuery.select(root).where(cb.equal(root.get("id"), id));
-            return session.createQuery(criteriaQuery).uniqueResultOptional();
+            return Optional.ofNullable(session.get(MovieSession.class, id));
         } catch (Exception e) {
             throw new DataProcessingException("Error retrieving movie by ID.", e);
         }

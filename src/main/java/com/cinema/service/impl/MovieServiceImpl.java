@@ -4,16 +4,14 @@ import com.cinema.dao.MovieDao;
 import com.cinema.model.Movie;
 import com.cinema.service.MovieService;
 import java.util.List;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@AllArgsConstructor
 public class MovieServiceImpl implements MovieService {
 
     private final MovieDao movieDao;
-
-    public MovieServiceImpl(MovieDao movieDao) {
-        this.movieDao = movieDao;
-    }
 
     @Override
     public Movie add(Movie movie) {

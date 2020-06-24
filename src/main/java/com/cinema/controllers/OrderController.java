@@ -10,6 +10,7 @@ import com.cinema.service.ShoppingCartService;
 import com.cinema.service.UserService;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,22 +20,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/orders")
+@AllArgsConstructor
 public class OrderController {
 
     private final OrderService orderService;
     private final UserService userService;
     private final ShoppingCartService shoppingCartService;
     private final ItemMapper<Order, OrderRequestDto, OrderResponseDto> itemMapper;
-
-    public OrderController(OrderService orderService,
-                           UserService userService,
-                           ItemMapper<Order, OrderRequestDto, OrderResponseDto> itemMapper,
-                           ShoppingCartService shoppingCartService) {
-        this.orderService = orderService;
-        this.userService = userService;
-        this.itemMapper = itemMapper;
-        this.shoppingCartService = shoppingCartService;
-    }
 
     @GetMapping
     public List<OrderResponseDto> getUserOrders(Authentication auth) {
