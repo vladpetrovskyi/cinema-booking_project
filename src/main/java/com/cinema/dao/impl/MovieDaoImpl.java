@@ -5,9 +5,7 @@ import com.cinema.exceptions.DataProcessingException;
 import com.cinema.model.Movie;
 import java.util.List;
 import java.util.Optional;
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import lombok.AllArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -57,11 +55,7 @@ public class MovieDaoImpl implements MovieDao {
     @Override
     public Optional<Movie> getById(Long id) {
         try (Session session = sessionFactory.openSession()) {
-            CriteriaBuilder cb = session.getCriteriaBuilder();
-            CriteriaQuery<Movie> criteriaQuery = cb.createQuery(Movie.class);
-            Root<Movie> root = criteriaQuery.from(Movie.class);
-            criteriaQuery.select(root).where(cb.equal(root.get("id"), id));
-            return session.createQuery(criteriaQuery).uniqueResultOptional();
+            return Optional.ofNullable(session.get(Movie.class, id));
         } catch (Exception e) {
             throw new DataProcessingException("Error retrieving movie by ID.", e);
         }
