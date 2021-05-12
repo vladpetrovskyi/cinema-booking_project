@@ -18,7 +18,7 @@
             https://raw.githubusercontent.com/mate-academy/style-guides/master/java/checkstyle.xml
         </maven.checkstyle.plugin.configLocation>
         <spring.version>5.2.6.RELEASE</spring.version>
-        <spring.security.version>5.3.3.RELEASE</spring.security.version>
+        <spring.security.version>5.3.9.RELEASE</spring.security.version>
     </properties>
 <dependencies>
     <dependency>
